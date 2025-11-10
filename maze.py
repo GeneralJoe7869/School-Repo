@@ -82,6 +82,55 @@ class Key(pygame.sprite.Sprite):
         self.image.fill(YELLOW)
         self.rect = self.image.get_rect(topleft=(x,y))
 
+class Enemy(pygame.sprite.Sprite):
+#The enemy that follows the player and resets the level if touched
+    def __init__(self, initX, initY):
+        super().__init__()
+        self.x=initX
+        self.y=initY
+        self.speed=2
+        self.image = pygame.Surface([TILE_SIZE, TILE_SIZE])
+        self.image.fill(FRICKING_MAROON)
+        self.rect = self.image.get_rect(topleft=(initX, initY))
+    def draw_turtle(self):
+        pygame.draw.rect(screen, FRICKING_MAROON, (self.x, self.y, TILE_SIZE, TILE_SIZE))
+    #The problem child that tells the enemy how to move
+    def update(self, walls, player):
+      old_x, old_y = self.rect.topleft
+
+      if self.rect.x < player.rect.x:
+          self.rect.x += self.speed
+      elif self.rect.x > player.rect.x:
+          self.rect.x -= self.speed
+
+      if pygame.sprite.spritecollide(self, walls, False):
+          self.rect.x = old_x
+
+      if self.rect.y < player.rect.y:
+          self.rect.y += self.speed
+      elif self.rect.y > player.rect.y:
+          self.rect.y -= self.speed
+
+      if pygame.sprite.spritecollide(self, walls, False):
+          self.rect.y = old_y
+
+
+class DeathBlock(pygame.sprite.Sprite):
+#A block that makes the player restart the level
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface([TILE_SIZE, TILE_SIZE])
+        self.image.fill(PURPLE)
+        self.rect = self.image.get_rect(topleft=(x,y))
+
+class StartPoint(pygame.sprite.Sprite):
+#Starting point of each level for the player
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface([TILE_SIZE, TILE_SIZE])
+        self.image.fill(RED)
+        self.rect = self.image.get_rect(topleft=(x, y))
+
 def load_maze(filename):
 #Loads the maze layout from a text file and creates the corresponding sprites.
     all_sprites = pygame.sprite.Group()
