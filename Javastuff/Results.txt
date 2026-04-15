@@ -1,0 +1,2 @@
+The mean is 77.444
+The standard deviation is 10.021

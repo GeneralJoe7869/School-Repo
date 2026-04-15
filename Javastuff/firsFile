@@ -1,0 +1,28 @@
+import turtle
+import math
+import random
+
+screen_width = 1600
+screen_height = 900
+
+def isInScreen(w,t):
+	if random.random() > .01:
+		return True
+	else:
+		return False	
+
+wn = turtle.Screen()
+t = turtle.Turtle()
+
+t.shape('circle')
+while isInScreen(wn, t):
+	coin = random.randrange(0, 2)
+	if coin == 0:
+		t.left(90)
+	else:
+		t.right(90)	
+		
+	t.forward(150)
+	
+wn.exitonclick()
+
